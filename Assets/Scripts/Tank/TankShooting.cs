@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
 public class TankShooting : MonoBehaviour
@@ -13,6 +14,7 @@ public class TankShooting : MonoBehaviour
     public float m_MinLaunchForce = 15f; 
     public float m_MaxLaunchForce = 30f; 
     public float m_MaxChargeTime = 0.75f;
+    public float m_CoolOffTime = 0.5f;
 
     private string m_FireButton;         
     private float m_CurrentLaunchForce;  
@@ -37,9 +39,8 @@ public class TankShooting : MonoBehaviour
         m_AimSlider.value = m_MinLaunchForce;
         if(m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired) {
             m_CurrentLaunchForce = m_MaxLaunchForce;
-            Fire();
+            StartCoroutine(Fire());
         } else if(Input.GetButtonDown(m_FireButton)) {
-            m_Fired = false;
             m_CurrentLaunchForce = m_MinLaunchForce;
             m_ShootingAudio.clip = m_ChargingClip;
             m_ShootingAudio.Play();
@@ -47,11 +48,11 @@ public class TankShooting : MonoBehaviour
             m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
             m_AimSlider.value = m_CurrentLaunchForce;
         } else if (Input.GetButtonUp (m_FireButton) && !m_Fired) {
-            Fire();
+            StartCoroutine(Fire());
         }
     }
 
-    private void Fire()
+    private IEnumerator Fire()
     {
         m_Fired = true;
         Rigidbody shellInstance = Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
@@ -59,5 +60,7 @@ public class TankShooting : MonoBehaviour
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
         m_CurrentLaunchForce = m_MinLaunchForce;
+        yield return new WaitForSeconds(m_CoolOffTime);
+        m_Fired = false;
     }
 }
