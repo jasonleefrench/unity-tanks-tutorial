@@ -3,27 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Tanks!</title>
+    <title>Unity WebGL Player | tanks-tutorial</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>  
     <script src="Build/UnityLoader.js"></script>
     <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/unity-tanks-tutorial-build.json");
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/unity-tanks-tutorial-build.json", {onProgress: UnityProgress});
     </script>
-    <style>
-    body {
-      margin: 0;
-    }
-    #gameContainer, .message {
-      width: 100%;
-      margin: 0 auto;
-      text-align: center;
-    }
-    </style>
   </head>
-  <body width="1280px">
-    <div id="gameContainer" style="height: 720px;"></div>
-    <div class="message">
-      <p>Player 1: WASD to move around, space to fire</p>
-      <p>Player 2: Arrow keys to move around, enter to fire</p>
+  <body>
+    <div class="webgl-content">
+      <div id="gameContainer" style="width: 1280px; height: 720px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">tanks-tutorial</div>
+      </div>
     </div>
   </body>
 </html>
