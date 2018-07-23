@@ -26,6 +26,8 @@ public class TankShooting : MonoBehaviour
     {
         m_CurrentLaunchForce = m_MinLaunchForce;
         m_AimSlider.value = m_MinLaunchForce;
+        m_ChargeClipPlaying = false;
+        m_Fired = false;
     }
 
 
