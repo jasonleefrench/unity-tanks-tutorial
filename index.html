@@ -11,15 +11,22 @@
     <script>
       var gameInstance = UnityLoader.instantiate("gameContainer", "Build/unity-tanks-tutorial-build.json", {onProgress: UnityProgress});
     </script>
+    <style>
+    body {
+      margin: 0;
+    }
+    #gameContainer, .message {
+      width: 100%;
+      margin: 0 auto !important;
+      text-align: center;
+    }
+    </style>
   </head>
   <body>
-    <div class="webgl-content">
-      <div id="gameContainer" style="width: 1280px; height: 720px"></div>
-      <div class="footer">
-        <div class="webgl-logo"></div>
-        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">tanks-tutorial</div>
-      </div>
+    <div id="gameContainer" style="height: 720px; width: 1280px;"></div>
+    <div class="message">
+      <p>Player 1: WASD to move around, space to fire</p>
+      <p>Player 2: Arrow keys to move around, enter to fire</p>
     </div>
   </body>
 </html>
