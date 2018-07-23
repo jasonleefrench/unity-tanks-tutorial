@@ -20,6 +20,7 @@ public class TankShooting : MonoBehaviour
     private float m_CurrentLaunchForce;  
     private float m_ChargeSpeed;         
     private bool m_Fired;
+    private bool m_ChargeClipPlaying;
 
     private void OnEnable()
     {
@@ -40,10 +41,11 @@ public class TankShooting : MonoBehaviour
         if(m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired) {
             m_CurrentLaunchForce = m_MaxLaunchForce;
             StartCoroutine(Fire());
-        } else if(Input.GetButtonDown(m_FireButton)) {
+        } else if(Input.GetButtonDown(m_FireButton) || Input.GetButton(m_FireButton) && !m_ChargeClipPlaying) {
             m_CurrentLaunchForce = m_MinLaunchForce;
             m_ShootingAudio.clip = m_ChargingClip;
             m_ShootingAudio.Play();
+            m_ChargeClipPlaying = true;
         } else if (Input.GetButton(m_FireButton) && !m_Fired) {
             m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
             m_AimSlider.value = m_CurrentLaunchForce;
@@ -62,5 +64,6 @@ public class TankShooting : MonoBehaviour
         m_CurrentLaunchForce = m_MinLaunchForce;
         yield return new WaitForSeconds(m_CoolOffTime);
         m_Fired = false;
+        m_ChargeClipPlaying = false;
     }
 }
