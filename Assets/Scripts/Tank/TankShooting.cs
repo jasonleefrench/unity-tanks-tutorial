@@ -43,7 +43,7 @@ public class TankShooting : MonoBehaviour
         if(m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired) {
             m_CurrentLaunchForce = m_MaxLaunchForce;
             StartCoroutine(Fire());
-        } else if(Input.GetButtonDown(m_FireButton) || Input.GetButton(m_FireButton) && !m_ChargeClipPlaying) {
+        } else if(!m_ChargeClipPlaying && Input.GetButton(m_FireButton)) {
             m_CurrentLaunchForce = m_MinLaunchForce;
             m_ShootingAudio.clip = m_ChargingClip;
             m_ShootingAudio.Play();
