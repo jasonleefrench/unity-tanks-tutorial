@@ -176,4 +176,4 @@ QualitySettings:
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
     Standalone: 0
-    WebGL: 5
+    WebGL: 4

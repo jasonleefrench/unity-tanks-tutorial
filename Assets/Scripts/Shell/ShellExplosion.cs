@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class ShellExplosion : MonoBehaviour
 {
@@ -9,13 +10,6 @@ public class ShellExplosion : MonoBehaviour
     public float m_ExplosionForce = 1000f;            
     public float m_MaxLifeTime = 2f;                  
     public float m_ExplosionRadius = 5f;              
-
-
-    private void Start()
-    {
-        Destroy(gameObject, m_MaxLifeTime);
-    }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -30,10 +24,11 @@ public class ShellExplosion : MonoBehaviour
             targetHealth.TakeDamage(damage);
         }
         m_ExplosionParticles.transform.parent = null;
+        m_ExplosionParticles.transform.position = gameObject.transform.position;
+        m_ExplosionParticles.transform.rotation = gameObject.transform.rotation;
         m_ExplosionParticles.Play();
         m_ExplosionAudio.Play();
-        Destroy(m_ExplosionParticles.gameObject, m_ExplosionParticles.duration);
-        Destroy(gameObject);
+        StartCoroutine(Remove());
     }
 
 
@@ -46,4 +41,11 @@ public class ShellExplosion : MonoBehaviour
         damage = Mathf.Max(0f, damage); 
         return damage;
     }
+
+    private IEnumerator Remove() {
+        gameObject.SetActive(false);
+        yield return new WaitForSeconds(m_ExplosionParticles.duration);
+        m_ExplosionParticles.Stop();
+    }
+
 }

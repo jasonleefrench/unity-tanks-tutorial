@@ -59,8 +59,14 @@ public class TankShooting : MonoBehaviour
     private IEnumerator Fire()
     {
         m_Fired = true;
-        Rigidbody shellInstance = Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
-        shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
+        GameObject shellInstance = ObjectPooler.m_SharedInstance.GetPooledObject(); 
+        if (shellInstance != null) {
+            shellInstance.transform.position = m_FireTransform.transform.position;
+            shellInstance.transform.rotation = m_FireTransform.transform.rotation;
+            shellInstance.SetActive(true);
+            Rigidbody shellBody = shellInstance.GetComponent<Rigidbody>();
+            shellBody.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
+        }
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
         m_CurrentLaunchForce = m_MinLaunchForce;
